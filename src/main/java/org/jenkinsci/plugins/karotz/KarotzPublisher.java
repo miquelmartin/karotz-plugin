@@ -112,7 +112,6 @@ public class KarotzPublisher extends Notifier {
 		}
 	}
 
-	@Override
 	public BuildStepMonitor getRequiredMonitorService() {
 		return BuildStepMonitor.BUILD;
 	}

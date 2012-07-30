@@ -46,9 +46,10 @@ public class SpeakAction extends KarotzAction {
 	/**
 	 * Number of milliseconds it takes the Karotz to pronounce one letter.
 	 * Naturally, this is approximate, and is just meant to ensure the Karotz
-	 * doesn't exit interactive mode mid-sentence.
+	 * doesn't exit interactive mode mid-sentence. Note that numbers take much
+	 * longer.
 	 */
-	private static final int LETTER_DURATION = 120;
+	private static final int LETTER_DURATION = 600;
 
 	private String textToSpeak;
 
