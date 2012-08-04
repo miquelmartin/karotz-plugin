@@ -37,6 +37,25 @@ public class LedFadeAction extends KarotzAction {
 
 	private final long period;
 
+	public static KarotzAction getAction(String[] parameter)
+			throws InvalidActionParamtersException {
+		if (parameter.length != 2) {
+			throw new InvalidActionParamtersException("Need two parameters",
+					Actions.FADELIGHT);
+		}
+
+		String color = parameter[0];
+		Long period;
+		try {
+			period = new Long(parameter[1]);
+		} catch (NumberFormatException e) {
+			throw new InvalidActionParamtersException(
+					"Expecting a number, got " + parameter[1] + " instead.",
+					Actions.FADELIGHT);
+		}
+		return new LedFadeAction(color, period);
+	}
+
 	public LedFadeAction(String color, long period) {
 		this.color = color;
 		this.period = period;
@@ -64,4 +83,33 @@ public class LedFadeAction extends KarotzAction {
 	public long getDuration() {
 		return period;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
+		result = prime * result + (int) (period ^ (period >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LedFadeAction other = (LedFadeAction) obj;
+		if (color == null) {
+			if (other.color != null)
+				return false;
+		} else if (!color.equals(other.color))
+			return false;
+		if (period != other.period)
+			return false;
+		return true;
+	}
+
 }

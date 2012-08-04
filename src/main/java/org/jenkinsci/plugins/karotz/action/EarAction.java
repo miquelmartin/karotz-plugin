@@ -39,6 +39,29 @@ public class EarAction extends KarotzAction {
 	private Boolean relative;
 	private Boolean reset;
 
+	public static EarAction getAction(String... parameter)
+			throws InvalidActionParamtersException {
+		if (parameter.length == 0) {
+			return new EarAction(); // Reset
+		} else {
+			if (parameter.length != 3) {
+				throw new InvalidActionParamtersException(
+						"Either 0 or 3 parameters needed", Actions.EARS);
+			}
+			try {
+				Integer left = new Integer(parameter[0]);
+				Integer right = new Integer(parameter[1]);
+				Boolean relative = new Boolean(parameter[2]);
+				return new EarAction(left, right, relative);
+			} catch (NumberFormatException e) {
+				throw new InvalidActionParamtersException(
+						"Unable to parse ear position into a number",
+						Actions.EARS);
+			}
+		}
+
+	}
+
 	public EarAction() {
 		this.reset = true;
 	}
@@ -84,5 +107,49 @@ public class EarAction extends KarotzAction {
 	@Override
 	public long getDuration() {
 		return EAR_RESET_TIME;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((left == null) ? 0 : left.hashCode());
+		result = prime * result
+				+ ((relative == null) ? 0 : relative.hashCode());
+		result = prime * result + ((reset == null) ? 0 : reset.hashCode());
+		result = prime * result + ((right == null) ? 0 : right.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EarAction other = (EarAction) obj;
+		if (left == null) {
+			if (other.left != null)
+				return false;
+		} else if (!left.equals(other.left))
+			return false;
+		if (relative == null) {
+			if (other.relative != null)
+				return false;
+		} else if (!relative.equals(other.relative))
+			return false;
+		if (reset == null) {
+			if (other.reset != null)
+				return false;
+		} else if (!reset.equals(other.reset))
+			return false;
+		if (right == null) {
+			if (other.right != null)
+				return false;
+		} else if (!right.equals(other.right))
+			return false;
+		return true;
 	}
 }

@@ -57,6 +57,19 @@ public class SpeakAction extends KarotzAction {
 
 	private final int duration;
 
+	// TODO understand placeholders for funny remarks
+	public static KarotzAction getAction(String[] parameter)
+			throws InvalidActionParamtersException {
+		if (parameter.length < 1 || parameter.length > 2) {
+			throw new InvalidActionParamtersException(
+					"This action takes a text parameter and an optional language.",
+					Actions.SPEAK);
+		}
+		String textToSpeak = parameter[0];
+		String language = parameter.length == 2 ? parameter[1] : "EN";
+		return new SpeakAction(textToSpeak, language);
+	}
+
 	public SpeakAction(String textToSpeak) {
 		this(textToSpeak, "EN");
 	}
@@ -105,5 +118,41 @@ public class SpeakAction extends KarotzAction {
 	@Override
 	public long getDuration() {
 		return duration;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + duration;
+		result = prime * result
+				+ ((language == null) ? 0 : language.hashCode());
+		result = prime * result
+				+ ((textToSpeak == null) ? 0 : textToSpeak.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SpeakAction other = (SpeakAction) obj;
+		if (duration != other.duration)
+			return false;
+		if (language == null) {
+			if (other.language != null)
+				return false;
+		} else if (!language.equals(other.language))
+			return false;
+		if (textToSpeak == null) {
+			if (other.textToSpeak != null)
+				return false;
+		} else if (!textToSpeak.equals(other.textToSpeak))
+			return false;
+		return true;
 	}
 }

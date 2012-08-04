@@ -32,6 +32,14 @@ import java.util.Map;
  * @author Seiji Sogabe
  */
 public class LedOffAction extends KarotzAction {
+	public static KarotzAction getAction(String[] parameter)
+			throws InvalidActionParamtersException {
+		if (parameter.length != 0) {
+			throw new InvalidActionParamtersException(
+					"This action doesn't take parameters.", Actions.LIGHTOFF);
+		}
+		return new LedOffAction();
+	}
 
 	@Override
 	public String getBaseUrl() {
@@ -47,7 +55,23 @@ public class LedOffAction extends KarotzAction {
 
 	@Override
 	public long getDuration() {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + LedOffAction.class.getName().hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		} else {
+			return getClass() == obj.getClass();
+		}
 	}
 }
