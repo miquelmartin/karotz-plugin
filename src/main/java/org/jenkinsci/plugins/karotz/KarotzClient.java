@@ -177,7 +177,7 @@ public class KarotzClient {
 			try {
 				return doRequestAttempt(url);
 			} catch (KarotzException e) {
-				long backoffTime = (long) (1000 * Math.pow(3, attempt));
+				long backoffTime = (long) (1000 * Math.pow(2, attempt));
 				LOGGER.log(Level.INFO, "Retrying in " + backoffTime / 1000
 						+ "s... (" + e.getMessage() + ")");
 				waitBeforeRetrying(backoffTime);
